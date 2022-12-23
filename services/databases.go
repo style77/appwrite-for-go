@@ -725,7 +725,7 @@ func (d *Databases) DeleteAttribute(databaseId string, collectionId string, attr
 }
 
 // List documents
-func (d *Databases) ListDocuments(databaseId string, collectionId string, queries map[string]interface{}) (interface{}, error) {
+func (d *Databases) ListDocuments(databaseId string, collectionId string, queries []string) (interface{}, error) {
 	if databaseId == "" {
 		return nil, errors.New("Missing required parameter: \"databaseId\"")
 	}
