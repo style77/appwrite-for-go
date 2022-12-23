@@ -25,7 +25,7 @@ type Client struct {
 
 func NewClient() *Client {
 	return &Client{
-		endpoint:   "https://HOSTNAME/v1",
+		endpoint: "https://HOSTNAME/v1",
 		headers: map[string]string{
 			"content-type":      "",
 			"x-sdk-name":        "Go-SDK",
@@ -149,7 +149,11 @@ func (c *Client) Call(method, path string, headers map[string]string, params map
 
 	query := u.Query()
 	for key, value := range params {
-		query.Set(key, value.(string))
+		value, ok := value.(string)
+		if !ok {
+			// handle the error
+		}
+		query.Set(key, value)
 	}
 	u.RawQuery = query.Encode()
 
@@ -174,16 +178,16 @@ func (c *Client) Call(method, path string, headers map[string]string, params map
 	}
 
 	switch contentType {
-		case "application/json":
-			req.Header.Set("Content-Type", "application/json")
-		case "application/x-www-form-urlencoded":
-			req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-		case "multipart/form-data":
-			req.Header.Set("Content-Type", "multipart/form-data")
-		default:
-			req.Header.Set("Content-Type", "application/json")
+	case "application/json":
+		req.Header.Set("Content-Type", "application/json")
+	case "application/x-www-form-urlencoded":
+		req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	case "multipart/form-data":
+		req.Header.Set("Content-Type", "multipart/form-data")
+	default:
+		req.Header.Set("Content-Type", "application/json")
 	}
-	
+
 	client := &http.Client{}
 
 	resp, err := client.Do(req)
@@ -193,24 +197,24 @@ func (c *Client) Call(method, path string, headers map[string]string, params map
 	defer resp.Body.Close()
 
 	switch responseType {
-		case "file":
-			return resp.Body, nil
-		case "stream":
-			return resp.Body, nil
-		case "json":
-			jsonData := make(map[string]interface{})
-			err := json.NewDecoder(resp.Body).Decode(&jsonData)
-			if err != nil {
-				return nil, err
-			}
-			return jsonData, nil
-		case "arraybuffer":
-			return resp.Body, nil
-		case "blob":
-			return resp.Body, nil
-		default:
-			return nil, fmt.Errorf("Invalid response type")
+	case "file":
+		return resp.Body, nil
+	case "stream":
+		return resp.Body, nil
+	case "json":
+		jsonData := make(map[string]interface{})
+		err := json.NewDecoder(resp.Body).Decode(&jsonData)
+		if err != nil {
+			return nil, err
 		}
+		return jsonData, nil
+	case "arraybuffer":
+		return resp.Body, nil
+	case "blob":
+		return resp.Body, nil
+	default:
+		return nil, fmt.Errorf("Invalid response type")
+	}
 }
 
 func stringify(data map[string]interface{}) string {
