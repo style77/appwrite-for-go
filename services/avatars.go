@@ -8,7 +8,7 @@ import (
 	// "net/http"
 	"strconv"
 
-	"github.com/style77/sdk-for-go"
+	"github.com/style77/appwrite-for-go"
 )
 
 type Avatars struct {

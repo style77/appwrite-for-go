@@ -5,8 +5,8 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
-	"github.com/style77/sdk-for-go"          // used for the appwrite.Client
-	"github.com/style77/sdk-for-go/services" // used for the services.Account
+	"github.com/style77/appwrite-for-go"          // used for the appwrite.Client
+	"github.com/style77/appwrite-for-go/services" // used for the services.Account
 )
 
 func main() {

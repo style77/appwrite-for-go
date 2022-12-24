@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/style77/sdk-for-go"
+	"github.com/style77/appwrite-for-go"
 )
 
 type Users struct {

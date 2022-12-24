@@ -3,7 +3,7 @@ package services
 import (
 	"fmt"
 
-	"github.com/style77/sdk-for-go"
+	"github.com/style77/appwrite-for-go"
 )
 
 type Health struct {
